@@ -6,7 +6,7 @@ Alive = "Choose character"
 GameState = 0
 PlyXP = 0
 PlyLevel = 1
-PlyGuard = False
+PlyGuard = "None"
 PlyGold = 15
 PlyPotions = 1
 PlyCharType = "None"
@@ -424,6 +424,7 @@ StrongEnemy = ["Vampire", "Dark Knight"]
 
 UnholyEnemy = ["Zombie", "Skeleton", "Infected Villager", "Corrupt Priest", "Rotting Cow", "Vicious Hound", "Cultist", "Vampire"]
 PoisonImmune = ["Green Slime", "Blue Slime", "Red SLime", "Skeleton", "Ghost"]
+CaltropImmune = ["Evil Fairy", "Ghost", "Angry Eagle", "Vicious Hawk", "Dark Knight"]
 
 EnemyQuotes = ["The Slime flutters and croaks at you.", "The Slime emits a rough groaning sound.", "The Slime lurches at you aggressively.", "The Slime attempts to bash you with its gelatinous body",
                '"Hand over the gold and nobody gets hurt!"', '"Its survival of the toughest out here, and I aint about to die!"', '"You picked the wrong path to travel, stranger"', '"I aint scared of no random wanderer like you!"',
@@ -596,7 +597,7 @@ while Alive == True:
             elif SpellChoice == 3 and PlyLevel >= 5 and PlyMana >= 3:
                 print("\nYou bolster your shield against the enemy attack.")
                 PlyMana = PlyMana - 3
-                PlyGuard == "Bolstered"
+                PlyGuard = "Bolstered"
                 WhoseTurn = 2
                 Casting = 0
             elif SpellChoice == 4 and PlyLevel >= 7 and PlyMana >= 4:
@@ -698,16 +699,19 @@ while Alive == True:
         if PlyCharType == "Rogue":
             print("Choose spell:")
             print("(0) Cancel")
-            print("(1) Vanish - Reduce enemy accuracy by 25 and increase your Critical Hit Chance by +15 for 3 turns - 2 Mana")
+            print("(1) Vanish - Reduce enemy accuracy by 25 and increase your Critical Hit Chance by +15 for 3 turns. - 2 Mana")
             if PlyLevel >= 3:
-                print("(2) Caltrops - The enemy takes 3 damage every time they attack. Can trigger 3 times. Does not end the turn - 3 Mana")
+                if CurEnemy in CaltropImmune:
+                    print("(2) Caltrops - The enemy takes 3 damage every time they hit you. Can trigger 3 times. Does not end the turn. This enemy isimmune to Caltrops. - 3 Mana")
+                else:
+                    print("(2) Caltrops - The enemy takes 3 damage every time they hit you. Can trigger 3 times. Does not end the turn. - 3 Mana")
             if PlyLevel >= 5:
                 if CurEnemy in PoisonImmune:
                     print("(3) Poisoned Blades - Attacks that hit cause the enemy to suffer Poison DoT. Lasts 3 turns, does not end your turn. This enemy is immune to Poison - 4 Mana")
                 else:
                     print("(3) Poisoned Blades - Attacks that hit cause the enemy to suffer Poison DoT. Lasts 3 turns, does not end your turn. - 4 Mana")
             if PlyLevel >= 7:
-                print("(4) Backstab - Perform an attack that has increased Critical Hit Chance and Damage, but reduced accuracy - 5 Mana")
+                print("(4) Backstab - Perform an attack that has increased Critical Hit Chance and Damage, but reduced accuracy. - 5 Mana")
             if PlyLevel >= 9:
                 print("(5) Smoke Bomb - Escape the encounter and continue traveling. You will not gain any XP or Gold by doing this. - 6 Mana")
             SpellChoice = int(input("\nSpell: "))
@@ -1266,7 +1270,7 @@ while Alive == True:
                         PlyBuffTurns = PlyBuffTurns - 1
             elif Combat.casefold() == "guard" or Combat.casefold() == "g":
                 print("\nYou guard yourself against the enemy.")
-                PlyGuard = True
+                PlyGuard = "True"
                 WhoseTurn = 2
                 if PlyBuffTurns > 0:
                     PlyBuffTurns = PlyBuffTurns - 1
@@ -1312,39 +1316,39 @@ while Alive == True:
             if EnemyAccuracy <= CurEnemyAccuracy:
                 ParryChance = random.randrange(1, 100)
                 ParryDMG = math.ceil(PlyDamage * 1.25)
-                if PlyGuard == False:
+                if PlyGuard == "None":
                     if EnemyAttack - PlyDMGRes <= 0:
                         EnemyAttack = 0
                         print("You take no damage.")
                     else:
-                        PlyHP = PlyHP - (EnemyAttack - PlyDMGRes)
                         print("You take", (EnemyAttack - PlyDMGRes), "points of damage.")
-                elif PlyGuard == True and ParryChance > PlyParry:
-                    if EnemyAttack - PlyDMGRes - PlyGuardRes <= 0:
-                        EnemyAttack = 0
-                        print("You take no damage.")
-                        PlyGuard = False
-                    else:
                         PlyHP = PlyHP - (EnemyAttack - PlyDMGRes)
-                        print("You take", (EnemyAttack - PlyDMGRes), "points of damage.")
-                        PlyGuard = False
-                elif PlyGuard == True and ParryChance <= PlyParry:
-                    print("Parry! The enemy takes", ParryDMG, "damage.")
-                    CurEnemyHP = CurEnemyHP - ParryDMG
-                    PlyGuard = False
                 elif PlyGuard == "Bolstered":
                     print("You deflect the enemy attack!")
                     print("The enemy takes", ParryDMG, "damage.")
                     CurEnemyHP = CurEnemyHP - ParryDMG
-                    PlyGuard = False
+                    PlyGuard = "None"
                 elif PlyGuard == "Taunt":
                     print("You brace for the enemy attack")
                     print("You take", (EnemyAttack - PlyDMGRes) * 0.5, "points of damage.")
                     PlyHP = PlyHP - ((EnemyAttack - PlyDMGRes) * 0.5)
                     print("You retaliate, dealing", PlyDamage * 0.75, "points of damage.")
                     CUrEnemyHP = CurEnemyHP - (PlyDamage * 0.75)
-                    PlyGuard = False
-                if CaltropHits > 0:
+                    PlyGuard = "None"
+                elif PlyGuard == "True" and ParryChance > PlyParry:
+                    if EnemyAttack - PlyDMGRes - PlyGuardRes <= 0:
+                        EnemyAttack = 0
+                        print("You take no damage.")
+                        PlyGuard = "None"
+                    else:
+                        PlyHP = PlyHP - (EnemyAttack - PlyDMGRes - PlyGuardRes)
+                        print("You take", (EnemyAttack - PlyDMGRes - PlyGuardRes), "points of damage.")
+                        PlyGuard = "None"
+                elif PlyGuard == "True" and ParryChance <= PlyParry:
+                    print("Parry! The enemy takes", ParryDMG, "damage.")
+                    CurEnemyHP = CurEnemyHP - ParryDMG
+                    PlyGuard = "None"
+                if CaltropHits > 0 and CurEnemy not in CaltropImmune:
                     print("The", CurEnemy, "takes 3 damage from the caltrops.")
                     CurEnemyHP = CurEnemyHP - 3
                     CaltropHits = CaltropHits - 1
@@ -1358,7 +1362,7 @@ while Alive == True:
                     CurEnemyDebuffTurns = CurEnemyDebuffTurns - 1
                 print("Miss! You take no damage.")
                 WhoseTurn = 1
-                PlyGuard = False
+                PlyGuard = "None"
     if InCombat == True and CurEnemyHP <= 0 and Ambush == False:
         print("\nThe enemy", CurEnemy, "is defeated!")
         print("You earned", CurEnemyXP, "XP")
