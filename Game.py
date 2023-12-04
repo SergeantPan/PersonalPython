@@ -79,6 +79,19 @@ PlagueMalusEnemyAcc = 0
 PlagueBonusDodge = 0
 PlagueBonusDMG = 0
 
+#Scavenger Skills
+ScavShieldRes = 0
+ScavShieldHP = 0
+ScavShieldParry = 0
+ScavArmorRes = 0
+ScavArmorHP = 0
+ScavMaterials = 0
+ScavDiscount = 1.00
+ScavGoldLoot = 1.00
+ScavLootChance = 0
+ScavCraftDiscount = 1.00
+ScavCrafting = 0
+
 #Enemy stats
 CurEnemy = None
 CurEnemyHP = 0
@@ -112,12 +125,17 @@ Potions = 0
 DistanceToTravel = 50
 TurnsToTraverse = 3
 
+#Cost increase based on items bought
+ArmorCost = 0
+ShieldCost = 0
+SwordCost = 0
+
 HelpMenu = ""
 
 #Character sheet = Health, Mana, Damage (min, max), Damage Res, Guard Reduction, Accuracy
 
 while Alive == "Choose character":
-    print("\nChoose a character:\n- The (K)night\n- The (L)eper\n- The (R)ogue\n- The (C)leric\n- The (P)lague Doctor")
+    print("\nChoose a character:\n- The (K)night\n- The (L)eper\n- The (R)ogue\n- The (C)leric\n- The (P)lague Doctor\n- The (S)cavenger")
     print("\nOr type 'help' for information on the various mechanics and stats.")
     CharChoice = input("\nChoose: ")
     if CharChoice.casefold() == "help":
@@ -152,7 +170,7 @@ while Alive == "Choose character":
             elif HelpChoice == "13":
                 HelpMenu = "Victory"
         while HelpMenu == "Characters":
-            print("(1) - The Knight\n(2) - The Leper\n(3) - The Rogue\n(4) - The Cleric\n(5) - The Plague Doctor")
+            print("(1) - The Knight\n(2) - The Leper\n(3) - The Rogue\n(4) - The Cleric\n(5) - The Plague Doctor\n(6) - The Scavenger")
             print("\nList <- (B)ack - (N)ext Page -> Levels")
             Page1 = input("\nChoose: ")
             if Page1 == "1":
@@ -163,8 +181,10 @@ while Alive == "Choose character":
                 HelpMenu = "Rogue"
             elif Page1 == "4":
                 HelpMenu = "Cleric"
-            elif Page1 == "%":
+            elif Page1 == "5":
                 HelpMenu = "Plague Doctor"
+            elif Page1 == "6":
+                HelpMenu = "Scavenger"
             elif Page1.casefold() == "b":
                 HelpMenu = "List"
             elif Page1.casefold() == "n":
@@ -203,10 +223,18 @@ while Alive == "Choose character":
                 HelpMenu = "Plague Doctor"
         while HelpMenu == "Plague Doctor":
             print("\nThe Plague Doctor is a character focused on inflicting DoTs (Damage-over-Time) on his enemies.\nThe Plague Doctor's basic attacks inflict poison on all hits, with spells buffing the damage and duration of DoTs\nPlague Doctors are a well known figure from Medieval times, during the Bubonic Plague\nPlague Doctors would wear beaked masks, with flower petals and other pleasant smelling substances stuffed into the beak.\nThis was done to hide the stench of dead corpses.")
-            print("\nThe Cleric <- (B)ack - (N)ext Page -> XP and Levels")
+            print("\nThe Cleric <- (B)ack - (N)ext Page -> The Scavenger")
             PlagueDoctor = input("\nChoose: ")
             if PlagueDoctor.casefold() == "b":
                 HelpMenu = "Cleric"
+            elif PlagueDoctor.casefold() == "n":
+                HelpMenu = "Scavenger"
+        while HelpMenu == "Scavenger":
+            print("\nThe Scavenger is a unique character with a focus on the 'Scrap' mechanic.\nWhen defeating enemies, the Scavenger gains a small amount of Scrap.\nAll spells require the use of Scrap instead of Mana, which makes the use of spells much more demanding.\nThe Scavenger can also craft new items from the Scrap (Armor, Shield, Weapon)\nThe Scavenger also gains much more gold from dead enemies, making Travelling Merchants and Villages all the more appealing.\nThe Scavenger also gets a small discount on items purchased from Merchants.")
+            print("\nThe Plague Doctor <- (B)ack - (N)ext Page -> Levels")
+            PlagueDoctor = input("\nChoose: ")
+            if PlagueDoctor.casefold() == "b":
+                HelpMenu = "Plague Doctor"
             elif PlagueDoctor.casefold() == "n":
                 HelpMenu = "Levels"
         while HelpMenu == "Levels":
@@ -332,11 +360,19 @@ while Alive == "Choose character":
                     PlyXP = int(OpenSave.readline())
                     PlyLevel = int(OpenSave.readline())
                     PlyGold = int(OpenSave.readline())
-                    PlyPotions = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
                     PlyDamageBuff = int(OpenSave.readline())
                     TruePlyDMGRes = int(OpenSave.readline())
                     PlyGuardRes = int(OpenSave.readline())
                     DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
                     OpenSave.close()
                     Alive = True
                 elif Choice.casefold() == "n":
@@ -374,11 +410,19 @@ while Alive == "Choose character":
                     PlyXP = int(OpenSave.readline())
                     PlyLevel = int(OpenSave.readline())
                     PlyGold = int(OpenSave.readline())
-                    PlyPotions = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
                     PlyDamageBuff = int(OpenSave.readline())
                     TruePlyDMGRes = int(OpenSave.readline())
                     PlyGuardRes = int(OpenSave.readline())
                     DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
                     OpenSave.close()
                     Alive = True
                 elif Choice.casefold() == "n":
@@ -417,11 +461,19 @@ while Alive == "Choose character":
                     PlyXP = int(OpenSave.readline())
                     PlyLevel = int(OpenSave.readline())
                     PlyGold = int(OpenSave.readline())
-                    PlyPotions = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
                     PlyDamageBuff = int(OpenSave.readline())
                     TruePlyDMGRes = int(OpenSave.readline())
                     PlyGuardRes = int(OpenSave.readline())
                     DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
                     OpenSave.close()
                     Alive = True
                 elif Choice.casefold() == "n":
@@ -458,11 +510,19 @@ while Alive == "Choose character":
                     PlyXP = int(OpenSave.readline())
                     PlyLevel = int(OpenSave.readline())
                     PlyGold = int(OpenSave.readline())
-                    PlyPotions = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
                     PlyDamageBuff = int(OpenSave.readline())
                     TruePlyDMGRes = int(OpenSave.readline())
                     PlyGuardRes = int(OpenSave.readline())
                     DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
                     OpenSave.close()
                     Alive = True
                 elif Choice.casefold() == "n":
@@ -500,11 +560,19 @@ while Alive == "Choose character":
                     PlyXP = int(OpenSave.readline())
                     PlyLevel = int(OpenSave.readline())
                     PlyGold = int(OpenSave.readline())
-                    PlyPotions = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
                     PlyDamageBuff = int(OpenSave.readline())
                     TruePlyDMGRes = int(OpenSave.readline())
                     PlyGuardRes = int(OpenSave.readline())
                     DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
                     OpenSave.close()
                     Alive = True
                 elif Choice.casefold() == "n":
@@ -515,7 +583,58 @@ while Alive == "Choose character":
                 PlyHP = 20
                 PlyMana = 5
                 Alive = True
+    elif CharChoice.casefold() == "scavenger" or CharChoice.casefold() == "the scavenger" or CharChoice.casefold() == "s":
+        print("\nThe Scavenger:\n- Uses Scrap instead of Mana\n- Craft Items from Scrap\n- Better Gold Rewards")
+        print("\n- 20 Health\n- 10 Scrap\n- Damage 3-6\n- Damage Resistance 0\n- Guard Damage Reduction 2\n- Parry Chance 30\n- Accuracy 65\n- Dodge 10\n- Critical Hit Chance 30")
+        ChoosePlague = input("Choose Scavenger? Y/N ")
+        if ChoosePlague.casefold() == "y":
+            PlyCharType = "Scavenger"
+            PlyStartHPCap = 18
+            MinDMG = 3
+            MaxDMG = 6
+            TruePlyDMGRes = 0
+            PlyGuardRes = 2
+            PlyParry = 30
+            TruePlyAccuracy = 65
+            TruePlyDodge = 10
+            TruePlyCritChance = 30
+            PlyHPPotions = 1
+            ScavGoldLoot = 1.15
+            ScavLootChance = 25
+            if os.path.exists("scavenger_save.txt"):
+                Choice = input("Open old save? Y/N ")
+                if Choice.casefold() == "y":
+                    OpenSave = open("scavenger_save.txt", "r")
+                    PlyHP = int(OpenSave.readline())
+                    ScavMaterials = int(OpenSave.readline())
+                    PlyXP = int(OpenSave.readline())
+                    PlyLevel = int(OpenSave.readline())
+                    PlyGold = int(OpenSave.readline())
+                    PlyHPPotions = int(OpenSave.readline())
+                    PlyAccPotions = int(OpenSave.readline())
+                    PlyLuckPotions = int(OpenSave.readline())
+                    PlyDodgePotions = int(OpenSave.readline())
+                    PlyStrengthPotions = int(OpenSave.readline())
+                    PlyResistancePotions = int(OpenSave.readline())
+                    PlyDamageBuff = int(OpenSave.readline())
+                    TruePlyDMGRes = int(OpenSave.readline())
+                    PlyGuardRes = int(OpenSave.readline())
+                    DistanceToTravel = int(OpenSave.readline())
+                    ArmorCost = int(OpenSave.readline())
+                    ShieldCost = int(OpenSave.readline())
+                    SwordCost = int(OpenSave.readline())
+                    OpenSave.close()
+                    Alive = True
+                elif Choice.casefold() == "n":
+                    PlyHP = 20
+                    ScavMaterials = 10
+                    Alive = True
+            else:
+                PlyHP = 20
+                ScavMaterials = 10
+                Alive = True
 
+#Merchant Related
 FirstMerchant = False
 ArmorBought = False
 SwordBought = False
@@ -524,7 +643,10 @@ PotionBought = False
 
 def SaveGame():
     NewSave = open(str(PlyCharType) + "_save.txt", "w")
-    NewSave.write(str(PlyHP)+ "\n" + str(PlyMana) + "\n" + str(PlyXP)+ "\n" + str(PlyLevel)+ "\n" + str(PlyGold)+ "\n" + str(PlyPotions)+ "\n" + str(PlyDamageBuff)+ "\n" + str(PlyDMGRes) + "\n" + str(PlyGuardRes)+ "\n" + str(DistanceToTravel))
+    if PlyCharType == "Scavenger":
+        NewSave.write(str(PlyHP)+ "\n" + str(ScavMaterials) + "\n" + str(PlyXP)+ "\n" + str(PlyLevel)+ "\n" + str(PlyGold) + "\n" + str(PlyHPPotions) + "\n" + str(PlyAccPotions) + "\n" + str(PlyLuckPotions) + "\n" + str(PlyDodgePotions) + "\n" + str(PlyStrengthPotions) + "\n" + str(PlyResistancePotions) + "\n" + str(PlyDamageBuff)+ "\n" + str(PlyDMGRes) + "\n" + str(PlyGuardRes) + "\n" + str(DistanceToTravel) + "\n" + str(ArmorBought) + "\n" + str(ShieldBought) + "\n" + str(SwordBought))
+    else:
+        NewSave.write(str(PlyHP)+ "\n" + str(PlyMana) + "\n" + str(PlyXP)+ "\n" + str(PlyLevel)+ "\n" + str(PlyGold) + "\n" + str(PlyHPPotions) + "\n" + str(PlyAccPotions) + "\n" + str(PlyLuckPotions) + "\n" + str(PlyDodgePotions) + "\n" + str(PlyStrengthPotions) + "\n" + str(PlyResistancePotions) + "\n" + str(PlyDamageBuff)+ "\n" + str(PlyDMGRes) + "\n" + str(PlyGuardRes)+ "\n" + str(DistanceToTravel) + "\n" + str(ArmorBought) + "\n" + str(ShieldBought) + "\n" + str(SwordBought))
     NewSave.close
     print("Game Saved!")
 
@@ -740,43 +862,43 @@ def SkillsNSpells():
     elif PlyCharType == "Scavenger":
         print("\nSpells:")
         if PlyLevel < 19:
-            print("Scrapper - Throw sharp pieces of metal at the enemy, causing them to suffer bleeding. Does not end turn. - 2 Mana - Upgrades at Level 19")
+            print("Scrapper - Throw sharp pieces of metal at the enemy, causing them to suffer bleeding. Does not end turn. - 3 Scrap - Upgrades at Level 19")
         elif PlyLevel >= 19:
-            print("Scrapper - Throw sharp knives fashioned from metal at the enemy, causing them to suffer bleeding. +20 Accuracy. Does not end turn. - 2 Mana")
+            print("Scrapper - Throw accurate and sharp blades at the enemy, causing them to suffer bleeding. +20 Accuracy. Does not end turn. - 3 Scrap")
         if PlyLevel >= 3 and PlyLevel < 23:
-            print("Improvised Weaponry - Perform a regular attack that deals -50% DMG but inflicts Bleeding and Poison. - 3 Mana - Upgrades at Level 23")
+            print("Improvised Weaponry - Perform a regular attack that deals -50% DMG but inflicts Bleeding and Poison. - 4 Scrap - Upgrades at Level 23")
         elif PlyLevel >= 23:
-            print("Improvised Weaponry - Perform a regular attack that deals -25% DMG but inflicts Bleeding and Poison. - 3 Mana")
+            print("Improvised Weaponry - Perform a regular attack that deals -25% DMG but inflicts Bleeding and Poison. - 4 Scrap")
         if PlyLevel >= 7:
-            print("Scrap Shield - Increase Parry Chance +20 and gain +2 Guard DMG Res for 3 Guarded hits. - 4 Mana")
+            print("Scrap Shield - Increase Parry Chance +20 and gain +2 Guard DMG Res for 3 Guarded hits. - 5 Scrap")
         if PlyLevel >= 11 and PlyLevel < 27:
-            print("Scrap Metal Armor - Improvised armor that grants +2 DMG reduction for 3 hits - 5 Mana - Upgrades at Level 27")
+            print("Scrap Metal Armor - Improvised armor that grants +2 DMG reduction for 3 hits - 6 Scrap - Upgrades at Level 27")
         elif PlyLevel >= 27:
-            print("Scrap Metal Armor - Improvised armor that grants +3 DMG reduction for 5 hits - 5 Mana")
+            print("Scrap Metal Armor - Improvised armor that grants +3 DMG reduction for 5 hits - 6 Scrap")
         if PlyLevel >= 15:
-            print("Handmade Bomb - Throw a bomb, inflicting massive DMG and Bleeding.")
+            print("Handmade Bomb - Throw a bomb, inflicting massive DMG and Bleeding. - 7 Scrap")
         print("\nSkills:")
         if PlyLevel < 5:
-            print("Scavenging - Chance to loot 1-3 materials is 20%")
+            print("Scavenging - Chance to loot 1-3 materials is 25%")
             print("Looting - Gold earned from fights is +15%")
         elif PlyLevel >= 5 and PlyLevel < 9:
-            print("Scavenging 1 - Chance to loot 1-3 materials is 25%")
+            print("Scavenging 1 - Chance to loot 1-3 materials is 33%")
             print("Looting - Gold earned from fights is +15%")
         elif PlyLevel >= 9 and PlyLevel < 13:
-            print("Scavenging 1 - Chance to loot 1-3 materials is 25%")
+            print("Scavenging 1 - Chance to loot 1-3 materials is 33%")
             print("Looting 1 - Gold earned from fights is +20%")
         elif PlyLevel >= 13 and PlyLevel < 17:
-            print("Scavenging 2 - Chance to loot 1-3 materials is 25%. 20% chance to loot additional materials.")
+            print("Scavenging 2 - Chance to loot 1-3 materials is 40%. 20% chance to loot additional materials.")
             print("Looting 1 - Gold earned from fights is +20%")
         elif PlyLevel >= 17 and PlyLevel < 21:
-            print("Scavenging 2 - Chance to loot 1-3 materials is 25%. 20% chance to loot additional materials.")
+            print("Scavenging 2 - Chance to loot 1-3 materials is 40%. 20% chance to loot additional materials.")
             print("Looting 2 - Gold earned from fights is +25%. Merchants are 10% cheaper.")
         elif PlyLevel >= 21 and PlyLevel < 25:
-            print("Scavenging 3 - Chance to loot 3-6 materials is 25%. 20% chance to loot additional materials. Items require 15% less materials to craft.")
+            print("Scavenging 3 - Chance to loot 3-6 materials is 50%. 20% chance to loot additional materials. Items require 15% less materials to craft.")
             print("Looting 2 - Gold earned from fights is +25%. Merchants are 10% cheaper.")
         elif PlyLevel >= 25:
-            print("Scavenging 3 - Chance to loot 3-6 materials is 25%. 20% chance to loot additional materials. Items require 15% less materials to craft.")
-            print("Looting 2 - Gold earned from fights is +25%. Merchants are 20% cheaper. 10% chance to receive potions from enemies.")
+            print("Scavenging 3 - Chance to loot 3-6 materials is 50%. 20% chance to loot additional materials. Items require 15% less materials to craft.")
+            print("Looting 3 - Gold earned from fights is +25%. Merchants are 20% cheaper. 10% chance to receive potions from enemies.")
         if PlyLevel == 30:
             print("Mastery: 5% chance to receive a free item from killed enemies.")
     input("\nPress ENTER to continue")
@@ -794,7 +916,8 @@ NormalEnemy = ["Bandit", "Bear", "Dire Wolf", "Fungus", "Corrupted Fungus", "Cor
 StrongEnemy = ["Vampire", "Dark Knight"]
 
 UnholyEnemy = ["Zombie", "Skeleton", "Infected Villager", "Corrupt Priest", "Rotting Cow", "Vicious Hound", "Cultist", "Vampire"]
-PoisonImmune = ["Green Slime", "Blue Slime", "Red SLime", "Skeleton", "Ghost"]
+PoisonImmune = ["Green Slime", "Blue Slime", "Red Slime", "Skeleton", "Ghost"]
+BleedImmune = ["Skeleton", "Ghost"]
 CaltropImmune = ["Evil Fairy", "Ghost", "Angry Eagle", "Vicious Hawk", "Dark Knight"]
 
 EnemyQuotes = ["The Slime flutters and croaks at you.", "The Slime emits a rough groaning sound.", "The Slime lurches at you aggressively.", "The Slime attempts to bash you with its gelatinous body",
@@ -857,7 +980,8 @@ while Alive == True:
             Alive = False
 
     PlyHPCap = PlyStartHPCap + (2 * PlyLevel)
-    PlyManaCap = PlyStartManaCap + (1 * PlyLevel)
+    if PlyCharType != "Scavenger":
+        PlyManaCap = PlyStartManaCap + (1 * PlyLevel)
     PlyDamage = random.randrange(int(MinDMG), int(MaxDMG)) + PlyDamageBuff + PlySpellDamageBuff + PlyAddDamageBuff + PlyLevel
     if PlyLevel < 30:
         XPRequired = 15 + (5 * PlyLevel)
@@ -872,6 +996,29 @@ while Alive == True:
         RogueCritBonus = 1
     if PlyLevel == 30 and PlyCharType == "Plague Doctor" and PoisonImmune.count() != 0:
         PoisonImmune.clear()
+    if PlyCharType == "Scavenger":
+        if PlyLevel >= 5 and PlyLevel < 9:
+            ScavLootChance = 33
+        elif PlyLevel >= 9 and PlyLevel < 13:
+            ScavLootChance = 33
+            ScavGoldLoot = 1.2
+        elif PlyLevel >= 13 and PlyLevel < 17:
+            ScavLootChance = 40
+            ScavGoldLoot = 1.2
+        elif PlyLevel >= 17 and PlyLevel < 21:
+            ScavLootChance = 40
+            ScavGoldLoot = 1.25
+            ScavDiscount = 0.9
+        elif PlyLevel >= 21 and PlyLevel < 25:
+            ScavLootChance = 50
+            ScavGoldLoot = 1.25
+            ScavDiscount = 0.9
+            ScavCraftDiscount = 0.85
+        elif PlyLevel >= 25:
+            ScavLootChance = 50
+            ScavGoldLoot = 1.25
+            ScavDiscount = 0.8
+            ScavCraftDiscount = 0.85
     if PlyXP >= XPRequired:
         PlyXP = PlyXP - XPRequired
         PlyLevel = PlyLevel + 1
@@ -901,7 +1048,7 @@ while Alive == True:
             elif PlyCharType == "Plague Doctor":
                 print("Skill Improved: Poisoned Blades 1 - Poison lasts 2 turns")
             elif PlyCharType == "Scavenger":
-                print("Skill Improved: Scavenging 1 - Increase chance of materials by +5%")
+                print("Skill Improved: Scavenging 1 - Increase chance of materials by +7%")
         elif PlyLevel == 7:
             if PlyCharType == "Knight":
                 print("\nYou have unlocked the spell Bolster Shield")
@@ -953,7 +1100,7 @@ while Alive == True:
             elif PlyCharType == "Plague Doctor":
                 print("Skill Improved: Poisoned Blades 2 - Poison lasts 3 turns")
             elif PlyCharType == "Scavenger":
-                print("Skill Improved: Scavenging 2 - 20% Chance to loot extra materials")
+                print("Skill Improved: Scavenging 2 - 20% Chance to loot extra materials. Chance of materials is increased by +7%")
         elif PlyLevel == 15:
             if PlyCharType == "Knight":
                 print("\nYou have unlocked the spell Shoulder Charge")
@@ -1005,7 +1152,7 @@ while Alive == True:
             elif PlyCharType == "Plague Doctor":
                 print("Skill Improved: Poisoned Blades 3 - Poison deals 3 damage")
             elif PlyCharType == "Scavenger":
-                print("Skill Improved: Scavenging 3 - Items require 15% less material to craft. Loot 3x more materials.")
+                print("Skill Improved: Scavenging 3 - Items require 15% less material to craft. Loot 3x more materials. Chance of materials is increased by +10%")
         elif PlyLevel == 23:
             if PlyCharType == "Knight":
                 print("Spell Upgraded: Crusade Banner no longer ends turn and lasts 5 turns")
@@ -1059,13 +1206,14 @@ while Alive == True:
             elif PlyCharType == "Scavenger":
                 print("Mastery Unlocked: 5% Chance to receive a free item from killed enemies")
         PlyHPCap = PlyStartHPCap + (2 * PlyLevel)
-        PlyManaCap = PlyStartManaCap + (1 * PlyLevel)
         PlyHP = PlyHP + 2
-        PlyMana = PlyMana + 1
+        if PlyCharType != "Scavenger":
+            PlyManaCap = PlyStartManaCap + (1 * PlyLevel)
+            PlyMana = PlyMana + 1
+            if PlyMana > PlyManaCap:
+                PlyMana = PlyManaCap
     if PlyHP > PlyHPCap:
         PlyHP = PlyHPCap
-    if PlyMana > PlyManaCap:
-        PlyMana = PlyManaCap
 
     if Afflicted == 1:
         print("\nYou are damaged by your affliction, taking 2 damage.")
@@ -1422,6 +1570,34 @@ while Alive == True:
                 PotionBuffType = "DMG"
                 PotionBuffTurns = 3
                 PotionUsed = "True"
+
+    while ScavCrafting == 1:
+        print("Scrap:", ScavMaterials)
+        print("\n- 1 Armor", math.floor((30 + (5 * ArmorBought)) * ScavCraftDiscount), "\n- 2 Shield", math.floor((40 + (5 * ShieldBought)) * ScavCraftDiscount), "\n- 3 Sword", math.floor((50 + (5 * SwordBought)) * ScavCraftDiscount), "\n- 4 Exit")
+        Craft = input("\nCraft: ")
+        if Craft == str(1) and ScavMaterials >= math.floor((30 + (5 * ArmorBought)) * ScavCraftDiscount):
+            print("You craft a new set of Armor.")
+            PlyDMGRes = PlyDMGRes + 1
+            ArmorBought = ArmorBought + 1
+            print("You now have", PlyDMGRes, "points of DMG Reduction.")
+        elif Craft == str(1) and ScavMaterials < math.floor((30 + (5 * ArmorBought)) * ScavCraftDiscount):
+            print("Not enough scrap!")
+        if Craft == str(2) and ScavMaterials >= math.floor((40 + (5 * ShieldBought)) * ScavCraftDiscount):
+            print("You craft a new Shield.")
+            PlyGuardRes = PlyGuardRes + 1
+            ShieldBought = ShieldBought + 1
+            print("You now have", PlyGuardRes, "points of Guard DMG Reduction.")
+        elif Craft == str(2) and ScavMaterials < math.floor((40 + (5 * ShieldBought)) * ScavCraftDiscount):
+            print("Not enough scrap!")
+        if Craft == str(3) and ScavMaterials >= math.floor((50 + (5 * SwordBought)) * ScavCraftDiscount):
+            print("You craft a new Sword.")
+            PlyDamageBuff = PlyDamageBuff + 1
+            SwordBought = SwordBought + 1
+            print("You now deal", PlyDamageBuff, "additional points of DMG.")
+        elif Craft == str(3) and ScavMaterials < math.floor((50 + (5 * SwordBought)) * ScavCraftDiscount):
+            print("Not enough scrap!")
+        if Craft == str(4):
+            ScavCrafting = 0
 
     while Casting == 1:
         if PotionBuffTurns > 0:
@@ -2038,154 +2214,272 @@ while Alive == True:
                     PoisonDMGBuff = PoisonDMGBuff + 1
                     WhoseTurn = 2
                     Casting = 0
+        if PlyCharType == "Scavenger":
+            print("\nChoose spell:")
+            print("(0) Cancel")
+            if PlyLevel < 19:
+                print("(1) Scrapper - Throw sharp pieces of metal at the enemy, causing them to suffer bleeding. Does not end turn. - 3 Scrap")
+            elif PlyLevel >= 19:
+                print("(1) Scrapper - Throw accurate and sharp blades at the enemy, causing them to suffer bleeding. +20 Accuracy. Does not end turn. - 3 Scrap")
+            if PlyLevel >= 3 and PlyLevel < 23:
+                if CurEnemy in PoisonImmune:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -50% DMG but inflicts Poison and Bleeding. The enemy is immune to Poison - 4 Scrap")
+                elif CurEnemy in BleedImmune and PoisonImmune:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -50% DMG but inflicts Poison and Bleeding. The enemy is immune to Poison and Bleed - 4 Scrap")
+                else:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -50% DMG but inflicts Poison and Bleeding. - 4 Scrap")
+            elif PlyLevel >= 23:
+                if CurEnemy in PoisonImmune:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -25% DMG but inflicts Poison and Bleeding. The enemy is immune to Poison - 4 Scrap")
+                elif CurEnemy in BleedImmune and PoisonImmune:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -25% DMG but inflicts Poison and Bleeding. The enemy is immune to Poison and Bleed - 4 Scrap")
+                else:
+                    print("(2) Improvised Weaponry - Perform an attack that deals -25% DMG but inflicts Poison and Bleeding. - 4 Scrap")
+            if PlyLevel >= 7:
+                print("(3) Scrap Shield - Increase Parry Chance +20 and Guard DMG Res +3 for 3 hits while Guarding. - 5 Scrap")
+            if PlyLevel >= 11 and PlyLevel < 27:
+                print("(4) Scrap Metal Armor - Provides +2 DMG Reduction for 3 hits. - 6 Scrap")
+            elif PlyLevel >= 27:
+                print("(4) Scrap Metal Armor - Provides +3 DMG Reduction for 5 hits. - 6 Scrap")
+            if PlyLevel >= 15:
+                if CurEnemy in BleedImmune:
+                    print("(5) Handmade Bomb - Throw a makeshift bomb that deals massive DMG and inflicts Bleeding. This enemy is immune to Bleeding. - 7 Scrap")
+                else:
+                    print("(5) Handmade Bomb - Throw a makeshift bomb that deals massive DMG and inflicts Bleeding. - 7 Scrap")
+            SpellChoice = int(input("\nSpell: "))
+            if (SpellChoice == 1 and ScavMaterials < 3) or (SpellChoice == 2 and ScavMaterials < 4) or (SpellChoice == 3 and ScavMaterials < 5) or (ScavMaterials < 6) or (ScavMaterials < 7):
+                print("Not enough Scrap!")
+            if SpellChoice == 0:
+                Casting = 0
+            elif SpellChoice == 1 and ScavMaterials >= 3:
+                Accuracy = random.randrange(1, 100)
+                if PlyLevel < 19:
+                    print("\nYou throw random pieces of metal at the", CurEnemy + ".")
+                    ThrowAccuracy = PlyAccuracy
+                elif PlyLevel >= 19:
+                    ThrowAccuracy = PlyAccuracy + 20
+                    print("\nYou throw makeshift blades at the", CurEnemy + ".")
+                ScavMaterials = ScavMaterials - 3
+                if Accuracy <= ThrowAccuracy:
+                    Crit = random.randrange(1, 100)
+                    if Crit <= PlyCritChance:
+                        print("Critical Hit!")
+                        PlyDamage = PlyDamage * 2
+                    print("You deal", PlyDamage, "points of damage.")
+                    CurEnemyHP = CurEnemyHP - PlyDamage
+                    Casting = 0
+                elif Accuracy > ThrowAccuracy:
+                    print("Miss! You deal no damage.")
+                    Casting = 0
+            elif SpellChoice == 2 and PlyLevel >= 3 and ScavMaterials >= 4:
+                print("\nYou upgrade your weapon with assorted pieces of metal and attack.")
+                Accuracy = random.randrange(1, 100)
+                ScavMaterials = ScavMaterials - 4
+                if Accuracy <= PlyAccuracy:
+                    Crit = random.randrange(1, 100)
+                    if Crit <= PlyCritChance:
+                        print("Critical Hit!")
+                        PlyDamage = PlyDamage * 2
+                    if PlyLevel < 23:
+                        PlyDamage = PlyDamage * 0.5
+                    elif PlyLevel >= 23:
+                        PlyDamage = PlyDamage * 0.75
+                    print("You deal", PlyDamage, "points of damage.")
+                    if CurEnemy in PoisonImmune:  
+                        print("The enemy is afflicted by Bleeding.")
+                        CurEnemyDoTType = "Bleed"
+                        CurEnemyDoTTurns = 3
+                    elif CurEnemy in PoisonImmune and BleedImmune:
+                        print("The enemy is unaffected by the Bleeding and Poison.")
+                    else:
+                        print("The enemy is affected by Bleeding and Poison.")
+                        CurEnemyDoTType = "Poisoned Bleed"
+                        CurEnemyDoTTurns = 3
+                    CurEnemyHP = CurEnemyHP - PlyDamage
+                    WhoseTurn = 2
+                    Casting = 0
+                elif Accuracy > PlyAccuracy:
+                    print("Miss! You deal no damage.")
+                    WhoseTurn = 2
+                    Casting = 0
+            elif SpellChoice == 3 and PlyLevel >= 7 and ScavMaterials >= 5:
+                print("\nYou hastily craft a shield out of the metal scrap.")
+                ScavMaterials = ScavMaterials - 5
+                ScavShieldHP = 3
+                ScavShieldRes = 3
+                ScavShieldParry = 20
+                WhoseTurn = 2
+                Casting = 0
+            elif SpellChoice == 4 and PlyLevel >= 11 and ScavMaterials >= 6:
+                print("\nYou hastily craft some armor out of the metal scrap.")
+                ScavMaterials = ScavMaterials - 6
+                if PlyLevel < 27:
+                    ScavArmorRes = 2
+                    ScavArmorHP = 3
+                elif PlyLevel >= 27:
+                    ScavArmorRes = 3
+                    ScavArmorHP = 5
+                WhoseTurn = 2
+                Casting = 0
+            elif SpellChoice == 5 and PlyLevel >= 15 and ScavMaterials >= 7:
+                print("\nYou craft a makeshift bomb and toss it at the enemy, dealing massive damage.")
+                ScavMaterials = ScavMaterials - 7
+                PlyDamage = PlyDamage * 1.5
+                print("You deal", PlyDamage, "points of damage.")
+                if CurEnemy in BleedImmune:
+                    print("The enemy is unaffected by the Bleeding and Poison.")
+                else:
+                    print("The enemy begins to bleed.")
+                    CurEnemyDoTType = "Bleed"
+                    CurEnemyDoTTurns = 3
+                CurEnemyHP = CurEnemyHP - PlyDamage
+                WhoseTurn = 2
+                Casting = 0
 
     if InCombat == False and UniqueLocation != None:
             if UniqueLocation == "Merchant":
                 TurnsToTraverse = 0
+                ArmorPrice = math.floor((60 + (5 * ArmorBought)) * ScavDiscount)
+                SwordPrice = math.floor((50 + (5 * SwordBought)) * ScavDiscount)
+                ShieldPrice = math.floor((40 + (5 * ShieldBought)) * ScavDiscount)
+                PotionPrice = math.floor(30 * ScavDiscount)
+
                 if FirstMerchant == False:
                     print('\nHe says: "Greetings traveler, care to browse my wares?"')
                     FirstMerchant = True
+                print("\nThe merchant is selling:")
                 if ArmorBought == False:
-                    ArmorLine = "\n - Stronger armor (+1 Damage Reduction) - 60 Gold"
-                else:
-                    ArmorLine = ""
+                    print("\n - Stronger armor (+1 Damage Reduction) -", ArmorPrice, "Gold")
                 if SwordBought == False:
-                    SwordLine = "\n - A better weapon (+1 Damage) - 50 Gold"
-                else:
-                    SwordLine = ""
+                    print(" - A better weapon (+1 Damage) -", SwordPrice, "Gold")
                 if ShieldBought == False:
-                    ShieldLine = "\n - A stronger shield (+1 Guard Protection) - 40 Gold"
-                else:
-                    ShieldLine = ""
+                    print(" - A stronger shield (+1 Guard Protection)", ShieldPrice, "Gold")
                 if PotionBought == False:
                     RandomPotion = random.randint(1,6)
                     if RandomPotion == 1:
-                        PotionType = "Acc"
-                        if PlyCharType == "Knight":
-                            if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Accuracy (+25 Accuracy) - 30 Gold"
-                            elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Accuracy (+30 Accuracy) - 30 Gold"
-                        else:
-                            PotionLine = "\n - A Potion of Accuracy (+20 Accuracy) - 30 Gold"
-                    elif RandomPotion == 2:
-                        PotionType = "Crit"
-                        if PlyCharType == "Knight":
-                            if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Luck (+25 Critical Hit Chance) - 30 Gold"
-                            elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Luck (+30 Critical Hit Chance) - 30 Gold"
-                        else:
-                            PotionLine = "\n - A Potion of Luck (+20 Critical Hit Chance) - 30 Gold"
-                    elif RandomPotion == 3:
-                        PotionType = "DMG"
-                        if PlyCharType == "Knight":
-                            if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Strength (+4 Damage) - 30 Gold"
-                            elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Strength (+5 Damage) - 30 Gold"
-                        else:
-                            PotionLine = "\n - A Potion of Strength (+3 Damage) - 30 Gold"
-                    elif RandomPotion == 4:
-                        PotionType = "DMG Res"
-                        if PlyCharType == "Knight":
-                            if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Resistance (+4 Damage Resistance) - 30 Gold"
-                            elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Resistance (+5 Damage Resistance) - 30 Gold"
-                        else:
-                            PotionLine = "\n - A Potion of Resistance (+3 Damage Resistance) - 30 Gold"
-                    elif RandomPotion == 5:
-                        PotionType = "HP"
-                        if PlyCharType == "Knight":
-                            if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Health (+50% Health) - 30 Gold"
-                            elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Health (+60% Health) - 30 Gold"
-                        else:
-                            PotionLine = "\n - A Potion of Health (+40% Health) - 30 Gold"
-                    elif RandomPotion == 6:
                         PotionType = "Dodge"
                         if PlyCharType == "Knight":
                             if PlyLevel < 9:
-                                PotionLine = "\n - A Potion of Dodge (+25 Dodge) - 30 Gold"
+                                print(" - A Potion of Dodge (+25 Dodge) -", PotionPrice, "Gold")
                             elif PlyLevel >= 9:
-                                PotionLine = "\n - A Potion of Dodge (+30 Dodge) - 30 Gold"
+                                print(" - A Potion of Dodge (+30 Dodge) -", PotionPrice, "Gold")
                         else:
-                            PotionLine = "\n - A Potion of Dodge (+20 Dodge) - 30 Gold"
-                else:
-                    PotionLine = ""
-                print("\nThe merchant is selling:", ArmorLine, SwordLine, ShieldLine, PotionLine)
+                            print(" - A Potion of Dodge (+20 Dodge) -", PotionPrice, "Gold")
+                    if RandomPotion == 2:
+                        PotionType = "HP"
+                        if PlyCharType == "Knight":
+                            if PlyLevel < 9:
+                                print(" - A Potion of Health (+50% Health) -", PotionPrice, "Gold")
+                            elif PlyLevel >= 9:
+                                print(" - A Potion of Health (+60% Health) -", PotionPrice, "Gold")
+                        else:
+                            print(" - A Potion of Health (+40% Health) -", PotionPrice, "Gold")
+                    if RandomPotion == 3:
+                        PotionType = "DMG Res"
+                        if PlyCharType == "Knight":
+                            if PlyLevel < 9:
+                                print(" - A Potion of Resistance (+4 Damage Resistance) -", PotionPrice, "Gold")
+                            elif PlyLevel >= 9:
+                                print(" - A Potion of Resistance (+5 Damage Resistance) -", PotionPrice, "Gold")
+                        else:
+                            print(" - A Potion of Resistance (+3 Damage Resistance) -", PotionPrice, "Gold")
+                    if RandomPotion == 4:
+                        PotionType = "DMG"
+                        if PlyCharType == "Knight":
+                            if PlyLevel < 9:
+                                print(" - A Potion of Strength (+4 Damage) -", PotionPrice, "Gold")
+                            elif PlyLevel >= 9:
+                                print(" - A Potion of Strength (+5 Damage) -", PotionPrice, "Gold")
+                        else:
+                            print(" - A Potion of Strength (+3 Damage) -", PotionPrice, "Gold")
+                    if RandomPotion == 5:
+                        PotionType = "Crit"
+                        if PlyCharType == "Knight":
+                            if PlyLevel < 9:
+                                print(" - A Potion of Luck (+25 Critical Hit Chance) -", PotionPrice, "Gold")
+                            elif PlyLevel >= 9:
+                                print(" - A Potion of Luck (+30 Critical Hit Chance) -", PotionPrice, "Gold")
+                        else:
+                            print(" - A Potion of Luck (+20 Critical Hit Chance) -", PotionPrice, "Gold")
+                    if RandomPotion == 6:
+                        PotionType = "Acc"
+                        if PlyCharType == "Knight":
+                            if PlyLevel < 9:
+                                print(" - A Potion of Accuracy (+25 Accuracy) -", PotionPrice, "Gold")
+                            elif PlyLevel >= 9:
+                                print(" - A Potion of Accuracy (+30 Accuracy) -", PotionPrice, "Gold")
+                        else:
+                            print(" - A Potion of Accuracy (+20 Accuracy) -", PotionPrice, "Gold")
                 print("\nYou have", PlyGold, "gold")
                 Purchase = input("\n(A)rmor - (W)eapon - (S)hield - (P)otion - (L)eave ")
                 if (Purchase.casefold() == "armor" or Purchase.casefold() == "a") and ArmorBought != True:
-                    if PlyGold >= 60:
+                    if PlyGold >= ArmorPrice:
                         print("\nYou purchase the armor")
                         TruePlyDMGRes = TruePlyDMGRes + 1
                         print("You now have", PlyDMGRes, "points of damage resistance.")
-                        PlyGold = PlyGold - 50
+                        PlyGold = PlyGold - ArmorPrice
                         print("Gold:", PlyGold)
                         ArmorBought = True
                     elif ArmorBought == True:
                         print('\nThe merchant says: "Sorry traveler, I got no more armor to sell ya"')
-                    elif PlyGold < 60:
+                    elif PlyGold < ArmorPrice:
                         print('\nThe merchant chuckles and says: "Sorry, but you dont have enough gold for that"')
                 elif (Purchase.casefold() == "weapon" or Purchase.casefold() == "w") and SwordBought != True:
-                    if PlyGold >= 50:
+                    if PlyGold >= SwordPrice:
                         print("\nYou purchase the weapon")
                         PlyDamageBuff = PlyDamageBuff + 1
                         print("You now deal", PlyDamageBuff, "additional points of damage.")
-                        PlyGold = PlyGold - 50
+                        PlyGold = PlyGold - SwordPrice
                         print("Gold:", PlyGold)
                         SwordBought = True
                     elif SwordBought == True:
                         print('\nThe merchant says: "Sorry traveler, I got no more weapons to sell ya"')
-                    elif PlyGold < 50:
+                    elif PlyGold < SwordPrice:
                         print('\nThe merchant chuckles and says: "Sorry, but you dont have enough gold for that"')
                 elif (Purchase.casefold() == "shield" or Purchase.casefold() == "s") and ShieldBought != True:
-                    if PlyGold >= 40:
+                    if PlyGold >= ShieldPrice:
                         print("\nYou purchase the shield")
                         PlyGuardRes = PlyGuardRes + 1
                         print("Your guard now protects against", PlyGuardRes, " points of damage.")
-                        PlyGold = PlyGold - 40
+                        PlyGold = PlyGold - ShieldPrice
                         print("Gold:", PlyGold)
                         ShieldBought = True
                     elif ShieldBought == True:
                         print('\nThe merchant says: "Sorry traveler, I got no more shields to sell ya"')
-                    elif PlyGold < 40:
+                    elif PlyGold < ShieldPrice:
                         print('\nThe merchant chuckles and says: "Sorry, but you dont have enough gold for that"')
                 elif (Purchase.casefold() == "p"or Purchase.casefold() == "potion") and PotionBought != True:
-                    if PlyGold >= 30:
+                    if PlyGold >= PotionPrice:
                         if PotionType == "Acc":
                             print("\nYou purchase the Potion of Accuracy")
                             PlyAccPotions = PlyAccPotions + 1
-                            print("You now have", PlyAccPotions, "Potions.")
+                            print("You now have", PlyAccPotions, "Potions of Accuracy.")
                         elif PotionType == "Crit":
                             print("\nYou purchase the Potion of Luck")
                             PlyLuckPotions = PlyLuckPotions + 1
-                            print("You now have", PlyLuckPotions, "Potions.")
+                            print("You now have", PlyLuckPotions, "Potions of Luck.")
                         elif PotionType == "DMG":
                             print("\nYou purchase the Potion of Strength")
                             PlyStrengthPotions = PlyStrengthPotions + 1
-                            print("You now have", PlyStrengthPotions, "Potions.")
+                            print("You now have", PlyStrengthPotions, "Potions of Strength.")
                         elif PotionType == "DMG Res":
                             print("\nYou purchase the Potion of Resistance")
                             PlyResistancePotions = PlyResistancePotions + 1
-                            print("You now have", PlyResistancePotions, "Potions.")
+                            print("You now have", PlyResistancePotions, "Potions of Resistance.")
                         elif PotionType == "HP":
                             print("\nYou purchase the Potion of Health")
                             PlyHPPotions = PlyHPPotions + 1
-                            print("You now have", PlyHPPotions, "Potions.")
+                            print("You now have", PlyHPPotions, "Potions of Health.")
                         elif PotionType == "Dodge":
                             print("\nYou purchase the Potion of Dodge")
                             PlyDodgePotions = PlyDodgePotions + 1
-                            print("You now have", PlyDodgePotions, "Potions.")
-                        PlyGold = PlyGold - 30
+                            print("You now have", PlyDodgePotions, "Potions of Dodge.")
+                        PlyGold = PlyGold - PotionPrice
                         print("Gold:", PlyGold)
                         PotionBought = True
                     elif PotionBought == True:
                         print('\nThe merchant says: "Sorry traveler, I got no more potions to sell ya"')
-                    elif PlyGold < 30:
+                    elif PlyGold < PotionPrice:
                         print('\nThe merchant chuckles and says: "Sorry, but you dont have enough gold for that"')
                 elif Purchase.casefold() == "leave" or Purchase.casefold() == "l":
                     print('\nYou leave the merchants shop.\n"Until next time, traveler!" he calls out.')
@@ -2200,15 +2494,21 @@ while Alive == True:
                 TurnsToTraverse = 0
                 print("\nYou come across a quiet village.")
                 print("You take a brief rest at the village")
-                print("You are fully healed and all your mana is restored")
-                PlyMana = PlyManaCap
+                if PlyCharType != "Scavenger":
+                    print("You are fully healed and all your mana is restored")
+                    PlyMana = PlyManaCap
+                else:
+                    print("You are fully healed")
                 PlyHP = PlyHPCap
                 UniqueLocation = None
                 CurPath = None
     elif InCombat == False and UniqueLocation == None:
         if PlyHP <= 0 and Alive == True:
             Alive = False
-        print("\nHealth:", str(PlyHP) + "/" + str(PlyHPCap), "Mana:", str(PlyMana) + "/" + str(PlyManaCap), "Gold:", PlyGold)
+        if PlyCharType == "Scavenger":
+            print("\nHealth:", str(PlyHP) + "/" + str(PlyHPCap), "Scrap:", str(ScavMaterials), "Gold:", PlyGold)
+        else:
+            print("\nHealth:", str(PlyHP) + "/" + str(PlyHPCap), "Mana:", str(PlyMana) + "/" + str(PlyManaCap), "Gold:", PlyGold)
         print("Level", PlyLevel, PlyCharType, "Experience:", str(PlyXP) + "/" + str(XPRequired))
         if CurPath != None and TurnsToTraverse > 0:
             print("\nThis path requires", TurnsToTraverse, "more turns to traverse through.")
@@ -2222,12 +2522,17 @@ while Alive == True:
                 print("\nAffliction will trigger in", (4 - Affliction), "turn(s).")
             elif PlyLevel >= 21:
                 print("\nAffliction will trigger in", (5 - Affliction), "turn(s).")
-        Movement = input("\n(T)ravel - (R)est - (Sk)ills and Spells - (Sa)ve Game ")
+        if PlyCharType == "Scavenger":
+            Movement = input("\n(T)ravel - (R)est - (C)raft - (Sk)ills and Spells - (Sa)ve Game ")
+        else:
+            Movement = input("\n(T)ravel - (R)est - (Sk)ills and Spells - (Sa)ve Game ")
         if Movement.casefold() == "save" or Movement.casefold() == "save game" or Movement.casefold() == "sa":
             print("Saving Game...")
             SaveGame()
         elif Movement.casefold() == "skills" or Movement.casefold() == "spells" or Movement.casefold() == "sk" or Movement.casefold() == "skills and spells":
             SkillsNSpells()
+        elif PlyCharType == "Scavenger" and (Movement.casefold() == "craft" or Movement.casefold() == "c"):
+            ScavCrafting = 1
         elif Movement.casefold() == "travel" or Movement.casefold() == "t":
             print("\nYou continue traveling.")
             if ClericRevive > 0:
@@ -2237,7 +2542,7 @@ while Alive == True:
             if PlyCharType == "Leper":
                 if PlyLevel < 5 and Affliction == 3:
                     Afflicted = 1
-                elif PlyLevel >=5 and PlyLevel < 21 and Affliction == 4:
+                elif PlyLevel >= 5 and PlyLevel < 21 and Affliction == 4:
                     Afflicted = 1
                 elif PlyLevel >= 21 and Affliction == 5:
                     Afflicted = 1
@@ -2367,46 +2672,49 @@ while Alive == True:
                                 print("\nThe chest contains nothing of interest")
                             elif ChestEvent >= 4 and ChestEvent <= 8:
                                 print("\nYou find some gold inside the chest!")
-                                PlyGold = PlyGold + random.randrange(10, 50)
+                                PlyGold = math.ceil((PlyGold + random.randrange(10, 50)) * ScavGoldLoot)
                                 print("You now have", PlyGold, "gold")
                             elif ChestEvent == 9:
                                 print("\nYou find a new sword inside the chest!")
                                 PlyDamageBuff = PlyDamageBuff + 1
                                 print("You now deal", PlyDamageBuff, "additional points of damage")
+                                SwordBought = SwordBought + 1
                             elif ChestEvent == 10:
                                 print("\nYou find new armor inside the chest!")
                                 TruePlyDMGRes = TruePlyDMGRes + 1
                                 print("You now have", TruePlyDMGRes, "points of damage resistance")
+                                ArmorBought = ArmorBought + 1
                             elif ChestEvent == 11:
                                 print("\nYou find a new shield inside the chest!")
                                 PlyGuardRes = PlyGuardRes + 1
                                 print("Your guard now protects against", PlyGuardRes, "points of damage")
+                                ShieldBought = ShieldBought + 1
                             elif ChestEvent == 12:
                                 RandomPotion = random.randint(1,6)
-                                if RandomPotion == "Acc":
+                                if RandomPotion == 1:
                                     print("\nYou find a Potion of Accuracy")
                                     PlyAccPotions = PlyAccPotions + 1
-                                    print("You now have", PlyAccPotions, "Potions.")
-                                elif RandomPotion == "Crit":
+                                    print("You now have", PlyAccPotions, "Potions of Accuracy.")
+                                elif RandomPotion == 2:
                                     print("\nYou find a Potion of Luck")
                                     PlyLuckPotions = PlyLuckPotions + 1
-                                    print("You now have", PlyLuckPotions, "Potions.")
-                                elif RandomPotion == "DMG":
+                                    print("You now have", PlyLuckPotions, "Potions of Luck.")
+                                elif RandomPotion == 3:
                                     print("\nYou find a Potion of Strength")
                                     PlyStrengthPotions = PlyStrengthPotions + 1
-                                    print("You now have", PlyStrengthPotions, "Potions.")
-                                elif RandomPotion == "DMG Res":
+                                    print("You now have", PlyStrengthPotions, "Potions of Strength.")
+                                elif RandomPotion == 4:
                                     print("\nYou find a Potion of Resistance")
                                     PlyResistancePotions = PlyResistancePotions + 1
-                                    print("You now have", PlyResistancePotions, "Potions.")
-                                elif RandomPotion == "HP":
+                                    print("You now have", PlyResistancePotions, "Potions of Resistance.")
+                                elif RandomPotion == 5:
                                     print("\nYou find a Potion of Health")
                                     PlyHPPotions = PlyHPPotions + 1
-                                    print("You now have", PlyHPPotions, "Potions.")
-                                elif RandomPotion == "Dodge":
+                                    print("You now have", PlyHPPotions, "Potions of Health.")
+                                elif RandomPotion == 6:
                                     print("\nYou find a Potion of Dodge")
                                     PlyDodgePotions = PlyDodgePotions + 1
-                                    print("You now have", PlyDodgePotions, "Potions.")
+                                    print("You now have", PlyDodgePotions, "Potions of Dodge.")
                             elif ChestEvent >= 13:
                                 print("\nThe chest is a mimic!")
                                 CurEnemy = "Mimic"
@@ -2415,7 +2723,7 @@ while Alive == True:
                         elif Chest.casefold() == "n":
                             print("\nYou leave the chest alone")
                     else:
-                        if PlyMana < PlyManaCap:
+                        if PlyCharType != "Scavenger" and PlyMana < PlyManaCap:
                             PlyMana = PlyMana + 1
                         print("You encounter no enemies")
                 if TurnsToTraverse == 0:
@@ -2434,7 +2742,13 @@ while Alive == True:
                 Ambush = True
                 InCombat = True
             else:
-                print("\nYou rest for a moment, recovering 5 HP and 2 Mana.")
+                if PlyCharType != "Scavenger":
+                    print("\nYou rest for a moment, recovering 5 HP and 2 Mana.")
+                    PlyMana = PlyMana + 2
+                    if PlyMana > PlyManaCap:
+                        PlyMana = PlyManaCap
+                else:
+                    print("\nYou rest for a moment, recovering 5 HP.")
                 if ClericRevive > 0:
                     ClericRevive = ClericRevive - 1
                 if PlyCharType == "Leper" and PlyLevel < 30:
@@ -2443,10 +2757,10 @@ while Alive == True:
                 PlyHP = PlyHP + 5
                 if PlyHP > PlyHPCap:
                     PlyHP = PlyHPCap
-                PlyMana = PlyMana + 2
-                if PlyMana > PlyManaCap:
-                    PlyMana = PlyManaCap
-                print("You now have", PlyHP, "HP and", PlyMana, "mana.")
+                if PlyCharType != "Scavenger":
+                    print("You now have", PlyHP, "HP and", PlyMana, "mana.")
+                else:
+                    print("You now have", PlyHP, "HP.")
         
     if InCombat == True and (CurEnemy == None or Ambush == True):
         if CurEnemy == None:
@@ -2562,7 +2876,7 @@ while Alive == True:
                     PlagueBonusDMG = 0
 
             PlyDodge = TruePlyDodge + PotionDodgeBuff + PlagueBonusDodge
-            PlyDMGRes = TruePlyDMGRes + PotionDMGResBuff + PlyBuffDMGResBonus + ClericDMGRes
+            PlyDMGRes = TruePlyDMGRes + PotionDMGResBuff + PlyBuffDMGResBonus + ClericDMGRes + ScavArmorRes
             PlyAccuracy = TruePlyAccuracy + PotionAccBuff + PlyBuffAccBonus + PlySpellAccBuff + PlagueBonusAcc + ClericAcc
             PlyCritChance = TruePlyCritChance + PotionCritBuff + PlyBuffCritBonus + PlySpellCritBuff + (5 * RogueCritBonus) + PlagueBonusCrit + ClericCrit
 
@@ -2593,6 +2907,11 @@ while Alive == True:
                     ClericAcc = 0
                     ClericCrit = 0
 
+            if ScavShieldHP == 0 and ScavShieldRes > 0:
+                ScavShieldRes = 0
+                ScavShieldParry = 0
+            if ScavArmorHP == 0 and ScavArmorRes > 0:
+                ScavArmorRes = 0
             if PlyDebuffTurns == 0 and PlyDebuffType != "None":
                 PlyDebuffType = "None"
                 CurEnemyBonusDMG = 0
@@ -2673,7 +2992,10 @@ while Alive == True:
                         PlyBuffCritBonus = 0
 
             print("\nEnemy", CurEnemy, "HP:", CurEnemyHP)
-            print("\nHealth:", PlyHP, "Mana:", PlyMana)
+            if PlyCharType != "Scavenger":
+                print("\nHealth:", PlyHP, "Mana:", PlyMana)
+            else:
+                print("\nHealth:", PlyHP, "Scrap:", ScavMaterials)
 
             if PlyCharType == "Leper":
                 Affliction = Affliction + 1
@@ -2685,9 +3007,9 @@ while Alive == True:
                 elif PlyLevel >= 21 and Affliction == 5:
                     Afflicted = 1
             if PlyCharType == "Leper" and PlyLevel >= 13:
-                Choices = "\n(A)ttack - (G)uard - (M)agic - (P)otion - (C)rippling Affliction "
+                Choices = "\n(A)ttack - (G)uard - (M)agic - (P)otions - (C)rippling Affliction "
             else:
-                Choices = "\n(A)ttack - (G)uard - (M)agic - (P)otion "
+                Choices = "\n(A)ttack - (G)uard - (M)agic - (P)otions "
             Combat = input(Choices)
             if Combat.casefold() == "attack" or Combat.casefold() == "a":
                 Accuracy = random.randrange(1, 100)
@@ -2792,10 +3114,10 @@ while Alive == True:
             PotionUsed = "False"
             if PlyCharType == "Knight" and PlyLevel == 30 and PlyGuard != "Bolstered":
                 PlyGuard == "True"
-            if PlyMana < PlyManaCap:
+            if PlyCharType != "Scavenger" and PlyMana < PlyManaCap:
                 PlyMana = PlyMana + (1 + ClericManaBonus)
-            if PlyMana > PlyManaCap:
-                PlyMana = PlyManaCap
+                if PlyMana > PlyManaCap:
+                    PlyMana = PlyManaCap
             if EnemyDMG == "Weak":
                 EnemyAttack = random.randrange(0, 3) + CurEnemyLevel + CurEnemyBonusDMG
             elif EnemyDMG == "Normal":
@@ -2839,7 +3161,7 @@ while Alive == True:
             else:
                 CurEnemyAccuracy = TrueEnemyAccuracy
             if EnemyAccuracy <= CurEnemyAccuracy:
-                ParryChance = random.randrange(1, 100)
+                ParryChance = random.randrange(1, 100) - ScavShieldParry
                 Dodge = random.randrange(1, 100)
                 ParryDMG = math.ceil(PlyDamage * 1.25)
                 if PlyGuard == "None":
@@ -2852,6 +3174,8 @@ while Alive == True:
                         else:
                             print("You take", (EnemyAttack - PlyDMGRes), "points of damage.")
                             PlyHP = PlyHP - (EnemyAttack - PlyDMGRes)
+                        if ScavArmorHP > 0:
+                            ScavArmorHP = ScavArmorHP - 1
                     WhoseTurn = 1
                 elif PlyGuard == "Bolstered":
                     print("You deflect the enemy attack!")
@@ -2889,14 +3213,18 @@ while Alive == True:
                             ParryNegationChance = 5
                         elif PlyLevel >= 21:
                             ParryNegationChance = 7
-                    if EnemyAttack - PlyDMGRes - PlyGuardRes <= 0 or ParryNegation <= ParryNegationChance:
+                    if (EnemyAttack - PlyDMGRes - PlyGuardRes - ScavShieldRes) <= 0 or ParryNegation <= ParryNegationChance:
                         EnemyAttack = 0
                         print("You take no damage.")
                         PlyGuard = "None"
                     else:
-                        PlyHP = PlyHP - (EnemyAttack - PlyDMGRes - PlyGuardRes)
-                        print("You take", (EnemyAttack - PlyDMGRes - PlyGuardRes), "points of damage.")
+                        PlyHP = PlyHP - (EnemyAttack - PlyDMGRes - PlyGuardRes - ScavShieldRes)
+                        print("You take", (EnemyAttack - PlyDMGRes - PlyGuardRes - ScavShieldRes), "points of damage.")
                         PlyGuard = "None"
+                    if ScavShieldHP > 0:
+                        ScavShieldHP = ScavShieldHP - 1
+                    if ScavArmorHP > 0:
+                        ScavArmorHP = ScavArmorHP - 1
                     WhoseTurn = 1
                 elif PlyGuard == "True" and ParryChance <= PlyParry:
                     if PlyCharType == "Knight":
@@ -2920,6 +3248,8 @@ while Alive == True:
                     print("Parry! The enemy takes", ParryDMG, "damage.")
                     CurEnemyHP = CurEnemyHP - ParryDMG
                     PlyGuard = "None"
+                    if ScavShieldHP > 0:
+                        ScavShieldHP = ScavShieldHP - 1
                     WhoseTurn = 1
                 if CaltropHits > 0 and CurEnemy not in CaltropImmune:
                     print("The", CurEnemy, "takes 3 damage from the caltrops.")
@@ -2951,9 +3281,73 @@ while Alive == True:
         if PlyLevel < 30:
             print("You earned", CurEnemyXP, "XP")
             PlyXP = PlyXP + CurEnemyXP
-        Gold = random.randrange(0, 8) + (2 * CurEnemyLevel)
+        Gold = math.ceil((random.randrange(0, 8) + (2 * CurEnemyLevel)) * ScavGoldLoot)
         print("You find", Gold, "pieces of gold on the enemy.")
         PlyGold = PlyGold + Gold
+        if PlyCharType == "Scavenger":
+            ScavMaterialChance = random.randrange(1, 100)
+            if ScavMaterialChance <= ScavLootChance:
+                print("\nYou find some scrap material on the enemy.")
+                if PlyLevel < 21:
+                    RandomScrap = random.randrange(1,3)
+                elif PlyLevel >= 21:
+                    RandomScrap = random.randrange(3,9)
+                if PlyLevel >= 13:
+                    if ScavMaterialChance <= 20:
+                        print("Extra Scrap!")
+                        if PlyLevel < 21:
+                            RandomScrap = random.randrange(1,3)
+                        elif PlyLevel >= 21:
+                            RandomScrap = random.randrange(3,9)
+                print("You now have", ScavMaterials, "Scrap.")
+            if PlyLevel >= 25:
+                PotionChance = random.randrange(1, 100)
+                if PotionChance <= 10:
+                    RandomPotion = random.randint(1,6)
+                    if RandomPotion == 1:
+                        print("\nYou find a Potion of Accuracy")
+                        PlyAccPotions = PlyAccPotions + 1
+                        print("You now have", PlyAccPotions, "Potions of Accuracy.")
+                    elif RandomPotion == 2:
+                        print("\nYou find a Potion of Luck")
+                        PlyLuckPotions = PlyLuckPotions + 1
+                        print("You now have", PlyLuckPotions, "Potions of Luck.")
+                    elif RandomPotion == 3:
+                        print("\nYou find a Potion of Strength")
+                        PlyStrengthPotions = PlyStrengthPotions + 1
+                        print("You now have", PlyStrengthPotions, "Potions of Strength.")
+                    elif RandomPotion == 4:
+                        print("\nYou find a Potion of Resistance")
+                        PlyResistancePotions = PlyResistancePotions + 1
+                        print("You now have", PlyResistancePotions, "Potions of Resistance.")
+                    elif RandomPotion == 5:
+                        print("\nYou find a Potion of Health")
+                        PlyHPPotions = PlyHPPotions + 1
+                        print("You now have", PlyHPPotions, "Potions of Health.")
+                    elif RandomPotion == 6:
+                        print("\nYou find a Potion of Dodge")
+                        PlyDodgePotions = PlyDodgePotions + 1
+                        print("You now have", PlyDodgePotions, "Potions of Dodge.")
+            if PlyLevel == 30:
+                RandomItem = random.randrange(1, 100)
+                if RandomItem <= 5:
+                    ItemType = random.randrange(1,3)
+                    if ChestEvent == 9:
+                        print("\nYou find a new sword on the body!")
+                        PlyDamageBuff = PlyDamageBuff + 1
+                        print("You now deal", PlyDamageBuff, "additional points of damage")
+                        SwordCost = SwordCost + 1
+                    elif ChestEvent == 10:
+                        print("\nYou find new armor on the body!")
+                        TruePlyDMGRes = TruePlyDMGRes + 1
+                        print("You now have", TruePlyDMGRes, "points of damage resistance")
+                        ArmorCost = ArmorCost + 1
+                    elif ChestEvent == 11:
+                        print("\nYou find a new shield on the body!")
+                        PlyGuardRes = PlyGuardRes + 1
+                        print("Your guard now protects against", PlyGuardRes, "points of damage")
+                        ShieldCost = ShieldCost + 1
+                        
         CurEnemy = None
         CurEnemyLevel = 0
         CurEnemyHP = 0
